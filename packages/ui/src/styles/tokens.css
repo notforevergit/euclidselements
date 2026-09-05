@@ -1,0 +1,44 @@
+/*
+ * Straightedge design tokens.
+ *
+ * The palette is Oliver Byrne's, from his 1847 edition of the Elements — the
+ * one that replaced Euclid's letters with colour so a proof could say "the
+ * blue line" instead of "the line AB". That substitution is exactly what an
+ * eight-year-old needs, which is why it is the app's palette and not just a
+ * nice reference.
+ *
+ * Imported by every app. Tailwind v4 reads @theme and generates utilities:
+ * --color-vermilion becomes bg-vermilion, text-vermilion, border-vermilion.
+ */
+
+@theme {
+  /* Byrne's four inks */
+  --color-vermilion: #bc3128;
+  --color-ultramarine: #1b47a8;
+  --color-ochre: #b98a06;
+  --color-byrne-black: #15181b;
+
+  /* Paper and neutrals — cool, not cream */
+  --color-paper: #f1f3ef;
+  --color-surface: #fafbf8;
+  --color-rule: #d3d8cf;
+  --color-ink: #15181b;
+  --color-ink-muted: #4c555c;
+  --color-ink-faint: #7a848b;
+
+  /* Type */
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Source Serif 4", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* The construction board */
+  --color-board: #fbfcf9;
+  --color-board-grid: #e6eae3;
+  --color-construction: #1b47a8; /* circles and guides */
+  --color-given: #15181b;        /* what the level hands you */
+  --color-drawn: #bc3128;        /* what you drew */
+  --color-solved: #0f8a5f;
+
+  /* Touch targets — never below this. Phase 4 depends on it. */
+  --spacing-touch: 2.75rem; /* 44px */
+}

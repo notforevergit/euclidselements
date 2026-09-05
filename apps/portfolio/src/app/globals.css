@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@import "@straightedge/ui/styles/tokens.css";
+
+@source "../../../../packages/ui/src";
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ultramarine);
+    outline-offset: 2px;
+  }
+}

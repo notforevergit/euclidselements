@@ -1,0 +1,34 @@
+@import "tailwindcss";
+@import "@straightedge/ui/styles/tokens.css";
+
+/* Tailwind scans the app automatically; the shared package needs saying. */
+@source "../../../../packages/ui/src";
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+  }
+
+  /* Phase 4 depends on this being honoured everywhere, so it is set once here. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ultramarine);
+    outline-offset: 2px;
+  }
+}

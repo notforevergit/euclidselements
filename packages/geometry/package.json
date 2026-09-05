@@ -1,0 +1,23 @@
+{
+  "name": "@straightedge/geometry",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pure TypeScript straightedge-and-compass engine. No React, no DOM.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@jest/globals": "^30.0.0",
+    "@swc/core": "^1.7.0",
+    "@swc/jest": "^0.2.36",
+    "jest": "^30.0.0"
+  }
+}
