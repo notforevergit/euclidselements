@@ -1,57 +1,65 @@
-# First run
-
-This scaffold was written without a network connection, so **nothing here has
-been installed or built yet**. That is the first thing to do, and it is also
-Phase 0's done-when.
+# Running it
 
 ```bash
-cd ~/Developer/Personal/resume_carlos
 npm install
-npm run verify
+npm run verify     # typecheck · lint · test · build — the same four steps CI runs
+npm run dev        # game :3000 · portfolio :3001
 ```
 
-`verify` runs typecheck, lint, unit tests and a production build of both apps —
-the same four steps CI runs.
+`verify` is 15 tasks across five workspaces. It went green on 2026-09-06.
 
-## If something fails
+## Versions
 
-Expected, and fine. The dependency versions are caret ranges written from
-memory rather than resolved against the registry, so a version may not exist or
-two may disagree. Paste the error and I will fix it.
+The scaffold was authored offline against Next 15 ranges. `npm audit fix --force`
+then moved the repo to Next 16, which is where it now lives:
 
-The likeliest spots, in order:
+| | version |
+|---|---|
+| Next | 16.3.4 |
+| React | 19.2.8 |
+| Turbo | 2.10.12 |
+| TypeScript | 5.9.3 |
+| Tailwind | 4.3.3 |
+| Jest | 30.5.1 |
+| Cypress | 16.0.0 |
 
-1. **A version does not resolve.** `npm install <pkg>@latest --workspace=<ws>`
-   and tell me what it picked.
-2. **Tailwind v4.** If `@import "@straightedge/ui/styles/tokens.css"` is not
-   found, the `exports` map in `packages/ui/package.json` is the thing to look
-   at.
-3. **`next/font`** needs network at build time to fetch the three families. It
-   will work on your Mac and on Vercel; it fails in an offline build.
-4. **Jest + SWC in `packages/geometry`.** If the transform complains, the
-   config is six lines in `jest.config.mjs`.
+Four things that upgrade required, all now done:
 
-## Then
+1. Turbo 2.10 refuses to resolve a workspace without a declared package
+   manager — hence `"packageManager": "npm@10.9.8"` in the root manifest.
+2. `next lint` was **removed** in Next 16. Both apps call `eslint .` directly.
+3. `audit fix --force` added Cypress to `apps/portfolio` as a *production*
+   dependency. Removed — that app has no tests.
+4. `eslint-config-next` is deliberately held at 15.5.25, which is what is
+   installed and what works with the FlatCompat setup. Bumping it to 16 is a
+   follow-up, not a blocker.
 
-```bash
-npm run dev
-```
+A note on `npm audit fix --force`: it crossed two major versions unasked and
+injected a wrong dependency, to patch vulnerabilities in dev-only tooling that
+never reaches a user. No harm here — Next 16 is the better place to be — but
+read what `audit` reports before letting `--force` act on it.
 
-- game → http://localhost:3000 (all ten propositions listed, three marked playable)
-- portfolio → http://localhost:3001
-
-## Deploying — Phase 0's real gate
+## Deploying — the rest of Phase 0
 
 Two Vercel projects from the same repository:
 
-| | Root Directory | Build command | Install command |
-|---|---|---|---|
-| game | `apps/web` | `cd ../.. && npm run build --workspace=@straightedge/web` | `npm install` (repo root) |
-| portfolio | `apps/portfolio` | `cd ../.. && npm run build --workspace=@straightedge/portfolio` | `npm install` (repo root) |
+| | Root Directory | Build command |
+|---|---|---|
+| game | `apps/web` | `cd ../.. && npm run build --workspace=@straightedge/web` |
+| portfolio | `apps/portfolio` | `cd ../.. && npm run build --workspace=@straightedge/portfolio` |
 
-Vercel detects Turborepo and will usually offer the right settings on import —
-take them if it does.
+Install command for both: `npm install`, run from the repository root. Vercel
+detects Turborepo on import and usually offers the right settings — take them
+if it does.
 
 Phase 0 is done when a push to `main` deploys, **and a deliberately failing
-test blocks that deploy**. Prove the second half; a green pipeline you have
-never seen go red tells you nothing.
+test blocks that deploy**. Prove the second half: break an assertion in
+`packages/geometry/src/__tests__/prop1.test.ts`, push it, watch CI go red, then
+revert. A green pipeline you have never seen go red tells you nothing.
+
+## Known local wrinkle
+
+Git leaves stale `.git/*.lock` files when run through the Claude desktop folder
+mount, which cannot unlink. If git ever reports "Unable to create
+'.git/index.lock': File exists" and no git process is running, delete that file
+and the ones under `.git/_stale/`. From your own terminal `rm` works normally.
