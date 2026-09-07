@@ -52,9 +52,10 @@ export function circleCircle(
   const by = c1.y + a * uy;
 
   // n = (-uy, ux) is u rotated +90 degrees.
+  // TEMPORARY: branches deliberately swapped to prove the CI gate. Revert.
   return [
-    { x: bx - h * uy, y: by + h * ux },
     { x: bx + h * uy, y: by - h * ux },
+    { x: bx - h * uy, y: by + h * ux },
   ];
 }
 
